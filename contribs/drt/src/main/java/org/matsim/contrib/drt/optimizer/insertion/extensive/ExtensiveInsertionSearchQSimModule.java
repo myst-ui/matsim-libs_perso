@@ -20,12 +20,14 @@
 
 package org.matsim.contrib.drt.optimizer.insertion.extensive;
 
+import org.apache.commons.compress.harmony.pack200.NewAttribute.PassAttribute;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.drt.optimizer.QSimScopeForkJoinPoolHolder;
 import org.matsim.contrib.drt.optimizer.insertion.DetourTimeEstimator;
 import org.matsim.contrib.drt.optimizer.insertion.DrtInsertionSearch;
 import org.matsim.contrib.drt.optimizer.insertion.InsertionCostCalculator;
 import org.matsim.contrib.drt.run.DrtConfigGroup;
+import org.matsim.contrib.drt.stops.PassengerStopDurationProvider;
 import org.matsim.contrib.drt.stops.StopTimeCalculator;
 import org.matsim.contrib.dvrp.run.AbstractDvrpModeQSimModule;
 import org.matsim.contrib.dvrp.run.DvrpModes;
@@ -60,7 +62,8 @@ public class ExtensiveInsertionSearchQSimModule extends AbstractDvrpModeQSimModu
 			var insertionCostCalculator = getter.getModal(InsertionCostCalculator.class);
 			var provider = ExtensiveInsertionProvider.create(drtCfg, insertionCostCalculator,
 					getter.getModal(QSimScopeForkJoinPoolHolder.class).getPool(),
-					getter.getModal(StopTimeCalculator.class), getter.getModal(DetourTimeEstimator.class));
+					getter.getModal(StopTimeCalculator.class), getter.getModal(DetourTimeEstimator.class),
+					getter.getModal(PassengerStopDurationProvider.class));
 			return new ExtensiveInsertionSearch(provider, getter.getModal(MultiInsertionDetourPathCalculator.class),
 					insertionCostCalculator, getter.getModal(StopTimeCalculator.class));
 		})).asEagerSingleton();

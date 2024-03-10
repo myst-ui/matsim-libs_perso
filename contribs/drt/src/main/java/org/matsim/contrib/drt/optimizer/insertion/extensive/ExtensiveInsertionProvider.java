@@ -35,6 +35,7 @@ import org.matsim.contrib.drt.optimizer.insertion.InsertionGenerator.Insertion;
 import org.matsim.contrib.drt.optimizer.insertion.InsertionWithDetourData;
 import org.matsim.contrib.drt.passenger.DrtRequest;
 import org.matsim.contrib.drt.run.DrtConfigGroup;
+import org.matsim.contrib.drt.stops.PassengerStopDurationProvider;
 import org.matsim.contrib.drt.stops.StopTimeCalculator;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -45,9 +46,9 @@ import com.google.common.annotations.VisibleForTesting;
 class ExtensiveInsertionProvider {
 	static ExtensiveInsertionProvider create(DrtConfigGroup drtCfg, InsertionCostCalculator insertionCostCalculator,
 			ForkJoinPool forkJoinPool, StopTimeCalculator stopTimeCalculator,
-			DetourTimeEstimator admissibleTimeEstimator) {
+			DetourTimeEstimator admissibleTimeEstimator,PassengerStopDurationProvider passengerStopDurationProvider) {
 		return new ExtensiveInsertionProvider((ExtensiveInsertionSearchParams) drtCfg.getDrtInsertionSearchParams(),
-				insertionCostCalculator, new InsertionGenerator(stopTimeCalculator, admissibleTimeEstimator),
+				insertionCostCalculator, new InsertionGenerator(stopTimeCalculator, admissibleTimeEstimator, passengerStopDurationProvider),
 				forkJoinPool);
 	}
 

@@ -68,8 +68,8 @@ public class PrebookingStopActivity extends FirstLastSimStepDynActivity implemen
 
 	@Override
 	protected boolean isLastStep(double now) {
-		boolean pickupsReady = updatePickupRequests(now);
 		boolean dropoffsReady = updateDropoffRequests(now);
+		boolean pickupsReady = updatePickupRequests(now);
 		return pickupsReady && dropoffsReady && now >= endTime.get();
 	}
 

@@ -31,6 +31,7 @@ import org.matsim.contrib.drt.optimizer.insertion.InsertionCostCalculator;
 import org.matsim.contrib.drt.optimizer.insertion.InsertionGenerator;
 import org.matsim.contrib.drt.optimizer.insertion.InsertionWithDetourData;
 import org.matsim.contrib.drt.passenger.DrtRequest;
+import org.matsim.contrib.drt.stops.PassengerStopDurationProvider;
 import org.matsim.contrib.drt.stops.StopTimeCalculator;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -41,9 +42,9 @@ import com.google.common.annotations.VisibleForTesting;
 class SelectiveInsertionProvider {
 	public static SelectiveInsertionProvider create(InsertionCostCalculator insertionCostCalculator,
 			ForkJoinPool forkJoinPool, StopTimeCalculator stopTimeCalculator,
-			DetourTimeEstimator restrictiveDetourTimeEstimator) {
+			DetourTimeEstimator restrictiveDetourTimeEstimator,PassengerStopDurationProvider passengerStopDurationProvider) {
 		return new SelectiveInsertionProvider(new BestInsertionFinder(insertionCostCalculator),
-				new InsertionGenerator(stopTimeCalculator, restrictiveDetourTimeEstimator), forkJoinPool);
+				new InsertionGenerator(stopTimeCalculator, restrictiveDetourTimeEstimator, passengerStopDurationProvider), forkJoinPool);
 	}
 
 	private final BestInsertionFinder initialInsertionFinder;

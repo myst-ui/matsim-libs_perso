@@ -14,3 +14,6 @@ matsim/src/main/java/Doxyfile
 
 # ignore output directories:
 output/
+/config
+/out
+/contribs/drt/src/main/java/org/matsim/contrib/drt/prebooking/maia
