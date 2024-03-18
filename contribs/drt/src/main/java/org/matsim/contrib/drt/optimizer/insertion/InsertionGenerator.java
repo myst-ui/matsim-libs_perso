@@ -368,8 +368,10 @@ public class InsertionGenerator {
 				< pickupDetourInfo.pickupTimeLoss + dropoffDetourInfo.dropoffTimeLoss) {
 			return null; // skip this dropoff insertion
 		}
-		
-		
+		// if (!request.getId().toString().split("_")[1].equals("prebooked")){
+		// 	return null;
+		// }
+		System.out.println("");
 
 		if (insertion.dropoff.previousWaypoint instanceof Waypoint.Stop && insertion.dropoff.previousWaypoint.getLink() == request.getToLink()){
 			if (!checkStop((Waypoint.Stop)insertion.dropoff.previousWaypoint, request,vehicleEntry,false)){
@@ -378,6 +380,16 @@ public class InsertionGenerator {
 		}
 		if (insertion.pickup.previousWaypoint instanceof Waypoint.Stop && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
 			if (!checkStop((Waypoint.Stop)insertion.pickup.previousWaypoint, request,vehicleEntry,true)){
+				return null;
+			}
+		}
+		if (insertion.pickup.newWaypoint instanceof Waypoint.Stop && insertion.pickup.newWaypoint.getLink() == request.getFromLink()){
+			if (!checkStop((Waypoint.Stop)insertion.pickup.newWaypoint, request,vehicleEntry,true)){
+				return null;
+			}
+		}
+		if (insertion.pickup.nextWaypoint instanceof Waypoint.Stop && insertion.pickup.nextWaypoint.getLink() == request.getFromLink()){
+			if (!checkStop((Waypoint.Stop)insertion.pickup.nextWaypoint, request,vehicleEntry,true)){
 				return null;
 			}
 		}

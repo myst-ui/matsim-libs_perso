@@ -17,3 +17,4 @@ output/
 /config
 /out
 /contribs/drt/src/main/java/org/matsim/contrib/drt/prebooking/maia
+/contribs/drt-extensions/src/main/java/org/matsim/contrib/drt/extension/maia
