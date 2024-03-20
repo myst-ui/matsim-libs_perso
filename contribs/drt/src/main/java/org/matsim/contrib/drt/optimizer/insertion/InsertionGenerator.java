@@ -371,28 +371,42 @@ public class InsertionGenerator {
 		// if (!request.getId().toString().split("_")[1].equals("prebooked")){
 		// 	return null;
 		// }
-		System.out.println("");
 
 		if (insertion.dropoff.previousWaypoint instanceof Waypoint.Stop && insertion.dropoff.previousWaypoint.getLink() == request.getToLink()){
-			if (!checkStop((Waypoint.Stop)insertion.dropoff.previousWaypoint, request,vehicleEntry,false)){
+			Waypoint.Stop stop = ((Waypoint.Stop)insertion.dropoff.previousWaypoint);
+			if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,false)){
 				return null;
 			}
 		}
+		
 		if (insertion.pickup.previousWaypoint instanceof Waypoint.Stop && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
-			if (!checkStop((Waypoint.Stop)insertion.pickup.previousWaypoint, request,vehicleEntry,true)){
+			Waypoint.Stop stop = ((Waypoint.Stop)insertion.pickup.previousWaypoint);
+			if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,true)){
 				return null;
 			}
 		}
-		if (insertion.pickup.newWaypoint instanceof Waypoint.Stop && insertion.pickup.newWaypoint.getLink() == request.getFromLink()){
-			if (!checkStop((Waypoint.Stop)insertion.pickup.newWaypoint, request,vehicleEntry,true)){
-				return null;
+		
+		if (insertion.pickup.previousWaypoint instanceof Waypoint.Start && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
+			Waypoint.Start start = (Waypoint.Start)insertion.pickup.previousWaypoint;
+			if (start.task.isPresent() && start.task.get() instanceof DrtStopTask){
+				if (!checkStop(((DrtStopTask) start.task.get()),start.getOutgoingOccupancy(), request,vehicleEntry,true)){
+					return null;
+				}
+				
 			}
 		}
-		if (insertion.pickup.nextWaypoint instanceof Waypoint.Stop && insertion.pickup.nextWaypoint.getLink() == request.getFromLink()){
-			if (!checkStop((Waypoint.Stop)insertion.pickup.nextWaypoint, request,vehicleEntry,true)){
-				return null;
-			}
-		}
+
+		
+		// if (insertion.pickup.newWaypoint instanceof Waypoint.Stop && insertion.pickup.newWaypoint.getLink() == request.getFromLink()){
+		// 	if (!checkStop((Waypoint.Stop)insertion.pickup.newWaypoint, request,vehicleEntry,true)){
+		// 		return null;
+		// 	}
+		// }
+		// if (insertion.pickup.nextWaypoint instanceof Waypoint.Stop && insertion.pickup.nextWaypoint.getLink() == request.getFromLink()){
+		// 	if (!checkStop((Waypoint.Stop)insertion.pickup.nextWaypoint, request,vehicleEntry,true)){
+		// 		return null;
+		// 	}
+		// }
 
 		// Waypoint.Stop lol = vehicleEntry.stops.get(dropoffIdx-1);
 		// Waypoint.Pickup wpp = (Waypoint.Pickup)pickupInsertion.newWaypoint;
@@ -439,30 +453,30 @@ public class InsertionGenerator {
 		
 		return new InsertionWithDetourData(insertion, null, new DetourTimeInfo(pickupDetourInfo, dropoffDetourInfo));
 	}
-	private boolean checkStop(Waypoint.Stop stop, DrtRequest request, VehicleEntry vehicleEntry, boolean pickup){
+	private boolean checkStop(DrtStopTask stopTask,int outgoingOccupancy, DrtRequest request, VehicleEntry vehicleEntry, boolean pickup){
 
 		List<SortItem> sequence = new LinkedList<>();
-		int incomingOccupany = stop.outgoingOccupancy;
+		int incomingOccupany = outgoingOccupancy;
 		
-		for (var item : stop.task.getPickupRequests().values()) {
-			double enterTime = stop.latestArrivalTime + passengerStopDurationProvider.calcPickupDuration(vehicleEntry.vehicle, request); // add interaction Time
+		for (var item : stopTask.getPickupRequests().values()) {
+			double enterTime = item.getLatestArrivalTime() + passengerStopDurationProvider.calcPickupDuration(vehicleEntry.vehicle, request); // add interaction Time
 			
 			sequence.add(new SortItem(enterTime, item.getPassengerCount()));
 			incomingOccupany -= item.getPassengerCount();
 		}
 
-		for (var item : stop.task.getDropoffRequests().values()) {
-			double exitTime = stop.latestArrivalTime + passengerStopDurationProvider.calcDropoffDuration(vehicleEntry.vehicle, request); // add interaction Time
+		for (var item : stopTask.getDropoffRequests().values()) {
+			double exitTime = item.getLatestArrivalTime() + passengerStopDurationProvider.calcDropoffDuration(vehicleEntry.vehicle, request); // add interaction Time
 			
 			sequence.add(new SortItem(exitTime, -item.getPassengerCount()));
 			incomingOccupany += item.getPassengerCount();
 		}
 
 		if (pickup){
-			double pickupTime = stop.latestArrivalTime + passengerStopDurationProvider.calcPickupDuration(vehicleEntry.vehicle, request); // add interaction Time
+			double pickupTime = request.getLatestArrivalTime() + passengerStopDurationProvider.calcPickupDuration(vehicleEntry.vehicle, request); // add interaction Time
 			sequence.add(new SortItem(pickupTime, request.getPassengerCount()));
 		}else{
-			double dropoffTime = stop.latestArrivalTime + passengerStopDurationProvider.calcDropoffDuration(vehicleEntry.vehicle, request); // add interaction Time
+			double dropoffTime = request.getLatestArrivalTime() + passengerStopDurationProvider.calcDropoffDuration(vehicleEntry.vehicle, request); // add interaction Time
 			sequence.add(new SortItem(dropoffTime, -request.getPassengerCount()));
 		}
 		
