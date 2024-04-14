@@ -397,59 +397,7 @@ public class InsertionGenerator {
 		}
 
 		
-		// if (insertion.pickup.newWaypoint instanceof Waypoint.Stop && insertion.pickup.newWaypoint.getLink() == request.getFromLink()){
-		// 	if (!checkStop((Waypoint.Stop)insertion.pickup.newWaypoint, request,vehicleEntry,true)){
-		// 		return null;
-		// 	}
-		// }
-		// if (insertion.pickup.nextWaypoint instanceof Waypoint.Stop && insertion.pickup.nextWaypoint.getLink() == request.getFromLink()){
-		// 	if (!checkStop((Waypoint.Stop)insertion.pickup.nextWaypoint, request,vehicleEntry,true)){
-		// 		return null;
-		// 	}
-		// }
-
-		// Waypoint.Stop lol = vehicleEntry.stops.get(dropoffIdx-1);
-		// Waypoint.Pickup wpp = (Waypoint.Pickup)pickupInsertion.newWaypoint;
-		// int xx = pickupInsertion.newWaypoint.getOutgoingOccupancy();
-		// Waypoint wp = insertion.dropoff.previousWaypoint;
-		//Waypoint.Dropoff wpd = (Waypoint.Dropoff)wp;
-		// int x = wp.getOutgoingOccupancy();
-		// int  y = request.getPassengerCount();
-		// int z = vehicleEntry.vehicle.getCapacity();
-
-		// if (wp instanceof Waypoint.Dropoff){
-		// 		// System.out.println("cringe");
-				
-		// }else{
-		// 	System.out.println("cringe");
-		// }
-		
-		
-		// if (wpp.getOutgoingOccupancy()==wpd.getOutgoingOccupancy()){
-		// 	System.out.println("sahdebugfotiche");
-		// }
-
-		// if (wp instanceof Waypoint.Pickup){
-		// 	return null;
-		// }
-		// if (wp instanceof Waypoint.Dropoff){
-		// 	return null;
-		// }
-		// if (wp instanceof Waypoint.Stop){
-		// 	// Waypoint.Stop currentStop = (Waypoint.Stop)wp;
-		// 	// int drop_occupancy = 0;
-		// 	// for (var item :currentStop.task.getDropoffRequests().values()){
-		// 	// 	drop_occupancy += item.getPassengerCount();
-		// 	// }
-			
-		// }
-		// if (wp.getOutgoingOccupancy() + request.getPassengerCount() > vehicleEntry.vehicle.getCapacity()){
-		// 	return null;
-		// }	
-		// Waypoint.Stop currentStop = (Waypoint.Stop)dropoffInsertion.newWaypoint;
-		// Waypoint.Stop currentStop = vehicleEntry.stops.get(dropoffIdx);
-		// Waypoint.Stop currentStop = (Waypoint.Stop)insertion.dropoff.newWaypoint;
-		// Waypoint.Stop currentStop = (Waypoint.Stop)vehicleEntry.getWaypoint(dropoffIdx);
+	
 		
 		return new InsertionWithDetourData(insertion, null, new DetourTimeInfo(pickupDetourInfo, dropoffDetourInfo));
 	}
