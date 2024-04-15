@@ -372,29 +372,29 @@ public class InsertionGenerator {
 		// 	return null;
 		// }
 
-		if (insertion.dropoff.previousWaypoint instanceof Waypoint.Stop && insertion.dropoff.previousWaypoint.getLink() == request.getToLink()){
-			Waypoint.Stop stop = ((Waypoint.Stop)insertion.dropoff.previousWaypoint);
-			if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,false)){
-				return null;
-			}
-		}
+		// if (insertion.dropoff.previousWaypoint instanceof Waypoint.Stop && insertion.dropoff.previousWaypoint.getLink() == request.getToLink()){
+		// 	Waypoint.Stop stop = ((Waypoint.Stop)insertion.dropoff.previousWaypoint);
+		// 	if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,false)){
+		// 		return null;
+		// 	}
+		// }
 		
-		if (insertion.pickup.previousWaypoint instanceof Waypoint.Stop && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
-			Waypoint.Stop stop = ((Waypoint.Stop)insertion.pickup.previousWaypoint);
-			if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,true)){
-				return null;
-			}
-		}
+		// if (insertion.pickup.previousWaypoint instanceof Waypoint.Stop && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
+		// 	Waypoint.Stop stop = ((Waypoint.Stop)insertion.pickup.previousWaypoint);
+		// 	if (!checkStop(stop.task,stop.outgoingOccupancy, request,vehicleEntry,true)){
+		// 		return null;
+		// 	}
+		// }
 		
-		if (insertion.pickup.previousWaypoint instanceof Waypoint.Start && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
-			Waypoint.Start start = (Waypoint.Start)insertion.pickup.previousWaypoint;
-			if (start.task.isPresent() && start.task.get() instanceof DrtStopTask){
-				if (!checkStop(((DrtStopTask) start.task.get()),start.getOutgoingOccupancy(), request,vehicleEntry,true)){
-					return null;
-				}
+		// if (insertion.pickup.previousWaypoint instanceof Waypoint.Start && insertion.pickup.previousWaypoint.getLink() == request.getFromLink()){
+		// 	Waypoint.Start start = (Waypoint.Start)insertion.pickup.previousWaypoint;
+		// 	if (start.task.isPresent() && start.task.get() instanceof DrtStopTask){
+		// 		if (!checkStop(((DrtStopTask) start.task.get()),start.getOutgoingOccupancy(), request,vehicleEntry,true)){
+		// 			return null;
+		// 		}
 				
-			}
-		}
+		// 	}
+		// }
 
 		
 	
